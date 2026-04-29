@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: civilo_postgres
+    environment:
+      POSTGRES_USER: civilo
+      POSTGRES_PASSWORD: civilo
+      POSTGRES_DB: civilo_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - civilo_pg:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+  civilo_pg:

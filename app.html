@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Civilo — Find trusted construction pros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#FF5A1F; --pd:#D44510; --pl:#FFEEE5;
+  --bg:#fff; --bgm:#F8F9FB; --bgd:#0F172A;
+  --t:#0F172A; --tm:#64748B; --bd:#E2E8F0;
+  --s:#10B981; --w:#F59E0B; --r:#EF4444;
+  --shadow:0 4px 20px rgba(15,23,42,.06);
+  --shadow-h:0 10px 40px rgba(15,23,42,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,sans-serif}
+html,body{background:var(--bgm);color:var(--t);min-height:100vh;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button{cursor:pointer;border:0;background:none;font-family:inherit}
+a{color:inherit;text-decoration:none}
+.scr{display:none}
+.scr.on{display:block}
+</style>
+</head>
+<body>
+<style>
+/* ─── Top nav ─── */
+.nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--bd);backdrop-filter:blur(10px);background:rgba(255,255,255,.92)}
+.nav-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;color:var(--p);cursor:pointer}
+.logo-ico{width:32px;height:32px;background:var(--p);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:18px}
+.loc-pick{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bgm);border-radius:10px;font-size:14px;font-weight:500;cursor:pointer}
+.loc-pick:hover{background:var(--pl)}
+.nav-search{flex:1;max-width:500px;position:relative}
+.nav-search input{width:100%;padding:10px 16px 10px 42px;border:1px solid var(--bd);border-radius:10px;font-size:14px;background:#fff;outline:none;transition:.2s}
+.nav-search input:focus{border-color:var(--p);box-shadow:0 0 0 3px var(--pl)}
+.nav-search::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px}
+.nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.nav-btn{padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--t)}
+.nav-btn:hover{background:var(--bgm)}
+.nav-btn.primary{background:var(--p);color:#fff}
+.nav-btn.primary:hover{background:var(--pd)}
+
+/* ─── Hero ─── */
+.hero{background:linear-gradient(135deg,#FF5A1F 0%,#FF8C42 100%);color:#fff;padding:60px 24px 40px;text-align:center}
+.hero-inner{max-width:900px;margin:0 auto}
+.hero h1{font-size:44px;font-weight:800;line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:18px;opacity:.95;margin-bottom:28px}
+.hero-stats{display:flex;justify-content:center;gap:48px;margin-top:32px;flex-wrap:wrap}
+.hero-stat strong{display:block;font-size:28px;font-weight:800}
+.hero-stat span{font-size:13px;opacity:.85}
+
+/* ─── Container ─── */
+.container{max-width:1240px;margin:0 auto;padding:0 24px}
+.section{padding:48px 0}
+.section-h{display:flex;align-items:end;justify-content:space-between;margin-bottom:24px}
+.section-h h2{font-size:24px;font-weight:700;letter-spacing:-.01em}
+.section-h p{font-size:14px;color:var(--tm);margin-top:4px}
+.see-all{font-size:14px;font-weight:600;color:var(--p)}
+
+/* ─── Categories ─── */
+.cats{display:block}
+.tier-block{margin-bottom:36px}
+.tier-block:last-child{margin-bottom:0}
+.tier-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.tier-pill{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.tier-pill.premium{background:linear-gradient(135deg,#FFE0CC,#FFCBA8);color:#9A3500}
+.tier-pill.core{background:#E0E7FF;color:#3730A3}
+.tier-pill.trades{background:#F1F5F9;color:#475569}
+.tier-sub{color:var(--tm);font-size:14px}
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.cat{position:relative;height:140px;border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s;background:var(--bgm)}
+.cat:hover{transform:translateY(-4px);box-shadow:var(--shadow-h)}
+.cat img{width:100%;height:100%;object-fit:cover;transition:.3s}
+.cat:hover img{transform:scale(1.08)}
+.cat-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.75) 100%);display:flex;align-items:end;padding:14px}
+.cat-name{color:#fff;font-weight:700;font-size:15px}
+
+/* ─── Vendor cards ─── */
+.vendors{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.vc{background:#fff;border-radius:16px;overflow:hidden;cursor:pointer;transition:.25s;box-shadow:var(--shadow);border:1px solid var(--bd)}
+.vc:hover{transform:translateY(-4px);box-shadow:var(--shadow-h)}
+.vc-img{height:180px;position:relative;overflow:hidden;background:var(--bgm)}
+.vc-img img{width:100%;height:100%;object-fit:cover}
+.vc-badge{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--p)}
+.vc-fav{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:16px}
+.vc-body{padding:16px}
+.vc-row1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.vc-name{font-weight:700;font-size:16px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vc-rate{display:flex;align-items:center;gap:4px;background:var(--s);color:#fff;padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700}
+.vc-bio{color:var(--tm);font-size:13px;margin-top:6px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--bd)}
+.vc-price{font-size:14px;font-weight:600}
+.vc-price small{color:var(--tm);font-weight:400}
+.vc-meta{font-size:12px;color:var(--tm)}
+
+/* ─── Vendor profile page ─── */
+.profile-hero{height:320px;position:relative;overflow:hidden}
+.profile-hero img{width:100%;height:100%;object-fit:cover}
+.profile-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.5) 100%)}
+.profile-back{position:absolute;top:20px;left:20px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:18px;cursor:pointer;z-index:2;box-shadow:var(--shadow)}
+.profile-card{max-width:1240px;margin:-80px auto 0;padding:0 24px;position:relative;z-index:2}
+.profile-card-inner{background:#fff;border-radius:20px;box-shadow:var(--shadow-h);overflow:hidden}
+.profile-head{padding:28px 28px 24px;display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:20px}
+.profile-name{font-size:28px;font-weight:800;letter-spacing:-.01em}
+.profile-meta{color:var(--tm);font-size:14px;margin-top:6px;display:flex;gap:12px;flex-wrap:wrap}
+.profile-meta span:not(:last-child)::after{content:"•";margin-left:12px;color:var(--bd)}
+.profile-rate-box{display:flex;flex-direction:column;align-items:end;gap:6px}
+.profile-rate{display:flex;align-items:center;gap:6px;background:var(--s);color:#fff;padding:6px 12px;border-radius:8px;font-weight:700}
+.profile-rate-meta{font-size:12px;color:var(--tm)}
+.profile-cta{display:flex;gap:10px;padding:0 28px 24px;flex-wrap:wrap}
+.btn{padding:14px 22px;border-radius:10px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:.2s;cursor:pointer}
+.btn.primary{background:var(--p);color:#fff;flex:1;justify-content:center;min-width:200px}
+.btn.primary:hover{background:var(--pd)}
+.btn.secondary{background:var(--bgm);color:var(--t)}
+.btn.secondary:hover{background:var(--bd)}
+.profile-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--bd)}
+.profile-block{padding:24px 28px;background:#fff}
+.profile-block h3{font-size:18px;font-weight:700;margin-bottom:14px}
+.profile-block p{color:var(--t);font-size:14px;line-height:1.7}
+.svc-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--bgm)}
+.svc-row:last-child{border:0}
+.svc-title{font-size:14px}
+.svc-price{font-weight:700;color:var(--p)}
+.rev{padding:14px;background:var(--bgm);border-radius:10px;margin-bottom:10px}
+.rev-h{display:flex;justify-content:space-between;font-weight:600;font-size:14px;margin-bottom:6px}
+.rev-stars{color:var(--w)}
+.rev-c{color:var(--tm);font-size:13px;line-height:1.5}
+
+/* ─── Booking modal ─── */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.on{display:flex}
+.modal-content{background:#fff;border-radius:16px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal-h{padding:20px 24px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.modal-h h2{font-size:20px;font-weight:700}
+.modal-x{font-size:24px;color:var(--tm)}
+.modal-body{padding:20px 24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:600;font-size:13px;margin-bottom:8px}
+.field input,.field textarea,.field select{width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--p);box-shadow:0 0 0 3px var(--pl)}
+.field textarea{min-height:80px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border:1.5px solid var(--bd);border-radius:20px;font-size:13px;cursor:pointer;transition:.15s;background:#fff}
+.chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+.chip:hover:not(.on){border-color:var(--p);color:var(--p)}
+.estimate-box{background:var(--pl);border-radius:10px;padding:14px;margin:14px 0}
+.estimate-box strong{font-size:18px;color:var(--p)}
+.estimate-box small{display:block;color:var(--tm);font-size:12px;margin-top:4px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--bd);display:flex;gap:10px}
+.modal-foot .btn{flex:1;justify-content:center}
+</style>
+<style>
+/* ─── Toast & loading ─── */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--bgd);color:#fff;padding:14px 24px;border-radius:30px;font-size:14px;font-weight:500;opacity:0;transition:.3s;pointer-events:none;z-index:300;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.toast.on{opacity:1}
+.skeleton{background:linear-gradient(90deg,#f1f5f9,#e2e8f0,#f1f5f9);background-size:200% 100%;animation:sk 1.5s ease-in-out infinite;border-radius:10px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--bgm);border-top-color:var(--p);border-radius:50%;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:60px 20px;color:var(--tm)}
+
+/* ─── Booking success ─── */
+.success{text-align:center;padding:30px 20px}
+.success-ico{width:72px;height:72px;background:var(--s);border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;color:#fff;font-size:36px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success h3{font-size:22px;font-weight:700;margin-bottom:6px}
+.success p{color:var(--tm);font-size:14px;line-height:1.6;margin-bottom:8px}
+.success-id{display:inline-block;background:var(--bgm);padding:6px 12px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:600;margin-top:8px}
+
+/* ─── Filters ─── */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter-chip{padding:8px 16px;background:#fff;border:1px solid var(--bd);border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;transition:.15s}
+.filter-chip:hover{border-color:var(--p);color:var(--p)}
+.filter-chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+
+/* ─── Footer ─── */
+.footer{background:var(--bgd);color:#94a3b8;padding:40px 24px;margin-top:60px;text-align:center;font-size:13px}
+.footer strong{color:#fff}
+
+/* ─── Responsive ─── */
+@media (max-width:768px){
+  .nav-inner{padding:12px 16px;gap:12px;flex-wrap:wrap}
+  .nav-search{order:3;flex-basis:100%;max-width:none}
+  .loc-pick{padding:6px 10px;font-size:13px}
+  .nav-btn:not(.primary){display:none}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:30px}
+  .hero p{font-size:15px}
+  .hero-stats{gap:24px}
+  .hero-stat strong{font-size:20px}
+  .container{padding:0 16px}
+  .section{padding:32px 0}
+  .section-h h2{font-size:20px}
+  .cats{grid-template-columns:repeat(2,1fr);gap:10px}
+  .cats-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .cat{height:120px}
+  .vendors{grid-template-columns:1fr;gap:14px}
+  .profile-hero{height:240px}
+  .profile-card{margin:-60px auto 0;padding:0 12px}
+  .profile-head{padding:20px}
+  .profile-name{font-size:22px}
+  .profile-rate-box{align-items:start}
+  .profile-cta{padding:0 20px 20px}
+  .btn.primary{min-width:auto}
+  .profile-block{padding:20px}
+}
+</style>
+
+<!-- Top nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="show('home')">
+      <span class="logo-ico">🏗</span>
+      <span>civilo</span>
+    </div>
+    <div class="loc-pick" id="locPick" onclick="openLocation()">
+      <span>📍</span>
+      <span id="locText">Koramangala, Bengaluru</span>
+      <span style="color:var(--tm)">▾</span>
+    </div>
+    <div class="nav-search">
+      <input id="qsearch" placeholder="Search painter, plumber, interior designer...">
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="openBookings()">My Bookings</button>
+      <button class="nav-btn primary" id="signInBtn" onclick="openSignIn()">Sign in</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME SCREEN -->
+<div class="scr on" id="home">
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Find trusted construction pros, fast.</h1>
+      <p>Painters, plumbers, electricians, designers and more — verified, rated, ready when you are.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>10,000+</strong><span>Verified pros</span></div>
+        <div class="hero-stat"><strong>50,000+</strong><span>Jobs completed</span></div>
+        <div class="hero-stat"><strong>4.7★</strong><span>Average rating</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-h">
+        <div>
+          <h2>What do you need today?</h2>
+          <p>From design and development to finishing trades</p>
+        </div>
+      </div>
+      <div class="cats" id="cats"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-h">
+        <div>
+          <h2>⭐ Top rated near you</h2>
+          <p>Highly reviewed pros in your area</p>
+        </div>
+        <span class="see-all">See all →</span>
+      </div>
+      <div class="vendors" id="featured"></div>
+    </section>
+  </div>
+</div>
+
+<!-- VENDOR LIST -->
+<div class="scr" id="list">
+  <div class="container" style="padding-top:24px">
+    <button class="btn secondary" onclick="show('home')" style="margin-bottom:20px">← Back</button>
+    <h2 id="ltitle" style="font-size:28px;font-weight:800;letter-spacing:-.01em">Vendors</h2>
+    <p style="color:var(--tm);margin-top:6px;margin-bottom:24px" id="lcount">Loading...</p>
+    <div class="filters">
+      <div class="filter-chip on">Sort: Rating</div>
+      <div class="filter-chip">Price: Low to High</div>
+      <div class="filter-chip">Distance</div>
+      <div class="filter-chip">Open now</div>
+    </div>
+    <div class="vendors" id="vlist"></div>
+  </div>
+</div>
+
+<!-- VENDOR PROFILE -->
+<div class="scr" id="profile">
+  <div id="pdata"></div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal" id="bookModal">
+  <div class="modal-content">
+    <div class="modal-h">
+      <h2>Book service</h2>
+      <button class="modal-x" onclick="closeBooking()">×</button>
+    </div>
+    <div class="modal-body" id="bookBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <strong>civilo</strong> — Find trusted construction pros, fast.<br>
+  © 2026 Civilo Technologies Pvt Ltd. All rights reserved.
+</footer>
+
+<script>
+var API = "/api";
+
+// Real Unsplash photos for category cards
+var CAT_IMAGES = {
+  interior_designer: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400",
+  civil_engineer:    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400",
+  land_developer:    "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400",
+  contractor:        "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400",
+  renovation_expert: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+  painter:           "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400",
+  plumber:           "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=400",
+  electrician:       "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400"
+};
+
+var FALLBACK_IMG = "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400";
+
+// State
+var currentVendor = null;
+var currentService = null;
+var bookingDayOffset = 0;
+var bookingSlot = "9-12";
+
+// Helpers
+function $(id) { return document.getElementById(id); }
+function esc(s) {
+  if (s === null || s === undefined) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function show(id) {
+  var els = document.querySelectorAll(".scr");
+  for (var i = 0; i < els.length; i++) els[i].classList.remove("on");
+  $(id).classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function toast(msg) {
+  var t = $("toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  setTimeout(function() { t.classList.remove("on"); }, 2500);
+}
+function fmtPrice(n) {
+  if (n === null || n === undefined || n === "") return "—";
+  return "₹" + Number(n).toLocaleString("en-IN");
+}
+</script>
+
+<script>
+// Load home: categories + top vendors
+function loadHome() {
+  $("cats").innerHTML = '<div class="skeleton" style="height:140px"></div>'.repeat(6);
+  $("featured").innerHTML = '<div class="skeleton" style="height:340px"></div>'.repeat(4);
+
+  fetch(API + "/services/categories")
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      // Group by tier so premium shows first prominently
+      var tiers = { premium: [], core: [], trades: [] };
+      for (var i = 0; i < d.categories.length; i++) {
+        var c = d.categories[i];
+        (tiers[c.tier] || tiers.trades).push(c);
+      }
+
+      function renderTier(arr) {
+        var html = "";
+        for (var i = 0; i < arr.length; i++) {
+          var c = arr[i];
+          var img = CAT_IMAGES[c.key] || FALLBACK_IMG;
+          html += '<div class="cat" data-cat="' + c.key + '" data-label="' + esc(c.label) + '">';
+          html += '<img src="' + img + '" alt="' + esc(c.label) + '" loading="lazy">';
+          html += '<div class="cat-overlay"><div class="cat-name">' + esc(c.label) + '</div></div>';
+          html += '</div>';
+        }
+        return html;
+      }
+
+      var out = "";
+      out += '<div class="tier-block"><div class="tier-h"><span class="tier-pill premium">★ Premium</span><span class="tier-sub">Design & development experts</span></div>';
+      out += '<div class="cats-grid">' + renderTier(tiers.premium) + '</div></div>';
+      out += '<div class="tier-block"><div class="tier-h"><span class="tier-pill core">Core</span><span class="tier-sub">Build & renovate</span></div>';
+      out += '<div class="cats-grid">' + renderTier(tiers.core) + '</div></div>';
+      out += '<div class="tier-block"><div class="tier-h"><span class="tier-pill trades">Trades</span><span class="tier-sub">Quick fixes & finishing</span></div>';
+      out += '<div class="cats-grid">' + renderTier(tiers.trades) + '</div></div>';
+
+      $("cats").innerHTML = out;
+      // Wire up clicks
+      var cards = document.querySelectorAll("#cats .cat");
+      for (var j = 0; j < cards.length; j++) {
+        cards[j].addEventListener("click", function() {
+          loadVendors(this.getAttribute("data-cat"), this.getAttribute("data-label"));
+        });
+      }
+    })
+    .catch(function(err) {
+      $("cats").innerHTML = '<div class="empty">⚠️ Unable to reach backend. Make sure the API is running on port 4000.<br><small>' + esc(err.message) + '</small></div>';
+    });
+
+  fetch(API + "/vendors")
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var v = d.vendors.slice(0, 4);
+      renderVendorCards(v, "featured");
+    })
+    .catch(function() {
+      $("featured").innerHTML = "";
+    });
+}
+
+function renderVendorCards(vendors, targetId) {
+  if (!vendors || !vendors.length) {
+    $(targetId).innerHTML = '<div class="empty">No vendors found in this area yet.</div>';
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < vendors.length; i++) {
+    var v = vendors[i];
+    var img = v.cover_photo_url || CAT_IMAGES[v.category] || FALLBACK_IMG;
+    var bio = v.bio || "Professional service provider";
+    html += '<div class="vc" data-id="' + esc(v.id) + '">';
+    html += '<div class="vc-img"><img src="' + esc(img) + '" alt="' + esc(v.business_name) + '" loading="lazy">';
+    html += '<div class="vc-badge">VERIFIED</div>';
+    html += '<div class="vc-fav">♡</div>';
+    html += '</div>';
+    html += '<div class="vc-body">';
+    html += '<div class="vc-row1">';
+    html += '<div class="vc-name">' + esc(v.business_name) + '</div>';
+    html += '<div class="vc-rate">⭐ ' + (v.rating_avg || "—") + '</div>';
+    html += '</div>';
+    html += '<div class="vc-bio">' + esc(bio) + '</div>';
+    html += '<div class="vc-foot">';
+    html += '<div class="vc-price">' + fmtPrice(v.min_price) + ' <small>onwards</small></div>';
+    html += '<div class="vc-meta">' + (v.experience_years || 0) + ' yrs • ' + (v.rating_count || 0) + ' jobs</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+  }
+  $(targetId).innerHTML = html;
+  var cards = document.querySelectorAll("#" + targetId + " .vc");
+  for (var j = 0; j < cards.length; j++) {
+    cards[j].addEventListener("click", function() {
+      loadProfile(this.getAttribute("data-id"));
+    });
+  }
+}
+</script>
+
+<script>
+function loadVendors(cat, label) {
+  show("list");
+  $("ltitle").textContent = label + "s near you";
+  $("lcount").textContent = "Loading...";
+  $("vlist").innerHTML = '<div class="skeleton" style="height:340px"></div>'.repeat(3);
+
+  fetch(API + "/vendors?category=" + encodeURIComponent(cat) + "&lat=" + LOC.lat + "&lng=" + LOC.lng + "&radius=20")
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      $("lcount").textContent = d.vendors.length + " " + label.toLowerCase() + (d.vendors.length === 1 ? "" : "s") + " available in Bengaluru";
+      renderVendorCards(d.vendors, "vlist");
+    })
+    .catch(function(err) {
+      $("vlist").innerHTML = '<div class="empty">Could not load vendors: ' + esc(err.message) + '</div>';
+    });
+}
+
+function loadProfile(id) {
+  show("profile");
+  $("pdata").innerHTML = '<div style="text-align:center;padding:80px"><div class="spinner"></div></div>';
+
+  fetch(API + "/vendors/" + encodeURIComponent(id))
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      currentVendor = d.vendor;
+      currentService = d.services && d.services.length ? d.services[0] : null;
+
+      var v = d.vendor;
+      var img = v.cover_photo_url || CAT_IMAGES[v.category] || FALLBACK_IMG;
+      var html = "";
+
+      // Hero
+      html += '<div class="profile-hero">';
+      html += '<button class="profile-back" onclick="show(\'list\')">←</button>';
+      html += '<img src="' + esc(img) + '" alt="' + esc(v.business_name) + '">';
+      html += '</div>';
+
+      // Card
+      html += '<div class="profile-card"><div class="profile-card-inner">';
+
+      // Head
+      html += '<div class="profile-head">';
+      html += '<div>';
+      html += '<div class="profile-name">' + esc(v.business_name) + '</div>';
+      html += '<div class="profile-meta">';
+      html += '<span>' + (v.experience_years || 0) + ' years experience</span>';
+      html += '<span style="color:var(--s)">● Open now</span>';
+      html += '<span>2.3 km away</span>';
+      html += '</div>';
+      html += '</div>';
+      html += '<div class="profile-rate-box">';
+      html += '<div class="profile-rate">⭐ ' + (v.rating_avg || "—") + '</div>';
+      html += '<div class="profile-rate-meta">' + (v.rating_count || 0) + ' reviews</div>';
+      html += '</div>';
+      html += '</div>';
+
+      // CTA
+      html += '<div class="profile-cta">';
+      html += '<button class="btn primary" onclick="openBooking()">📅 Book Now</button>';
+      html += '<button class="btn secondary">📞 Call</button>';
+      html += '<button class="btn secondary">💬 Chat</button>';
+      html += '</div>';
+
+      // Sections
+      html += '<div class="profile-grid">';
+      html += '<div class="profile-block"><h3>About</h3><p>' + esc(v.bio || "No description provided.") + '</p></div>';
+
+      // Services
+      html += '<div class="profile-block"><h3>Services & Pricing</h3>';
+      if (d.services && d.services.length) {
+        for (var i = 0; i < d.services.length; i++) {
+          var s = d.services[i];
+          html += '<div class="svc-row">';
+          html += '<div><div class="svc-title">' + esc(s.title) + '</div>';
+          if (s.description) html += '<div style="color:var(--tm);font-size:12px;margin-top:2px">' + esc(s.description) + '</div>';
+          html += '</div>';
+          html += '<div class="svc-price">' + fmtPrice(s.price_per_unit) + '<small style="color:var(--tm);font-weight:400">/' + esc(s.unit) + '</small></div>';
+          html += '</div>';
+        }
+      } else {
+        html += '<p style="color:var(--tm)">No services listed.</p>';
+      }
+      html += '</div>';
+
+      // Reviews
+      html += '<div class="profile-block"><h3>Recent Reviews (' + (v.rating_count || 0) + ')</h3>';
+      if (d.reviews && d.reviews.length) {
+        for (var k = 0; k < Math.min(5, d.reviews.length); k++) {
+          var r = d.reviews[k];
+          var stars = "";
+          for (var m = 0; m < r.rating; m++) stars += "★";
+          html += '<div class="rev"><div class="rev-h"><span>' + esc(r.customer_name) + '</span><span class="rev-stars">' + stars + '</span></div>';
+          if (r.comment) html += '<div class="rev-c">' + esc(r.comment) + '</div>';
+          html += '</div>';
+        }
+      } else {
+        html += '<p style="color:var(--tm);font-size:14px">No reviews yet — be the first to book and rate!</p>';
+      }
+      html += '</div>';
+
+      html += '</div>'; // grid
+      html += '</div></div>'; // card
+
+      $("pdata").innerHTML = html;
+    })
+    .catch(function(err) {
+      $("pdata").innerHTML = '<div class="empty">Could not load profile: ' + esc(err.message) + '</div>';
+    });
+}
+</script>
+
+<script>
+function dateLabel(off) {
+  var d = new Date();
+  d.setDate(d.getDate() + off);
+  if (off === 0) return "Today";
+  if (off === 1) return "Tomorrow";
+  var m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return d.getDate() + " " + m[d.getMonth()];
+}
+
+function openBooking() {
+  if (!currentVendor) return;
+  bookingDayOffset = 0;
+  bookingSlot = "9-12";
+  renderBookingForm();
+  $("bookModal").classList.add("on");
+}
+
+function closeBooking() {
+  $("bookModal").classList.remove("on");
+}
+
+function renderBookingForm() {
+  var v = currentVendor;
+  var services = [];
+  // Pull services from currently rendered profile - safer to refetch isn't necessary
+  // We just need at least one service
+  if (currentService) services.push(currentService);
+
+  var html = "";
+  html += '<div class="field"><label>1. When do you need it?</label><div class="chips" id="dayChips">';
+  for (var i = 0; i < 4; i++) {
+    html += '<div class="chip ' + (i === bookingDayOffset ? "on" : "") + '" data-day="' + i + '">' + dateLabel(i) + '</div>';
+  }
+  html += '</div></div>';
+
+  html += '<div class="field"><label>Time slot</label><div class="chips" id="slotChips">';
+  var slots = ["9-12","12-3","3-6","6-9"];
+  for (var j = 0; j < slots.length; j++) {
+    html += '<div class="chip ' + (slots[j] === bookingSlot ? "on" : "") + '" data-slot="' + slots[j] + '">' + slots[j] + '</div>';
+  }
+  html += '</div></div>';
+
+  html += '<div class="field"><label>2. Where?</label><textarea id="bAddress" placeholder="Enter your full address...">#42, 5th Cross, Koramangala, Bengaluru</textarea></div>';
+
+  html += '<div class="field"><label>3. What needs to be done?</label><textarea id="bScope" placeholder="e.g., 2 BHK interior painting, 800 sqft, Asian Paints"></textarea></div>';
+
+  if (currentService) {
+    var est = Number(currentService.price_per_unit) * 100;
+    html += '<div class="estimate-box">';
+    html += '<strong>Estimated: ' + fmtPrice(Math.round(est * 0.75)) + ' – ' + fmtPrice(Math.round(est * 1.25)) + '</strong>';
+    html += '<small>Final price confirmed after on-site visit. Payment on completion.</small>';
+    html += '</div>';
+  }
+
+  html += '<div class="modal-foot" style="margin:20px -24px -20px;padding:16px 24px"><button class="btn secondary" onclick="closeBooking()">Cancel</button><button class="btn primary" onclick="submitBooking()">Confirm Booking</button></div>';
+
+  $("bookBody").innerHTML = html;
+
+  // Wire chips
+  var dayChips = document.querySelectorAll("#dayChips .chip");
+  for (var k = 0; k < dayChips.length; k++) {
+    dayChips[k].addEventListener("click", function() {
+      bookingDayOffset = parseInt(this.getAttribute("data-day"));
+      renderBookingForm();
+    });
+  }
+  var slotChips = document.querySelectorAll("#slotChips .chip");
+  for (var m = 0; m < slotChips.length; m++) {
+    slotChips[m].addEventListener("click", function() {
+      bookingSlot = this.getAttribute("data-slot");
+      renderBookingForm();
+    });
+  }
+}
+
+function submitBooking() {
+  var address = $("bAddress").value.trim();
+  var scope = $("bScope").value.trim();
+  if (!address || !scope) {
+    toast("Please fill address and scope of work");
+    return;
+  }
+  if (!currentVendor || !currentService) {
+    toast("Missing service details");
+    return;
+  }
+
+  // Auth required to actually persist the booking
+  if (!TOKEN || !ME) {
+    closeBooking();
+    toast("Please sign in to confirm your booking");
+    openSignIn();
+    return;
+  }
+
+  var d = new Date();
+  d.setDate(d.getDate() + bookingDayOffset);
+  var iso = d.toISOString().slice(0, 10);
+
+  // Show loading state
+  $("bookBody").innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div><p style="margin-top:14px;color:var(--tm)">Placing your booking...</p></div>';
+
+  fetch("/api/bookings", {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({
+      vendorId: currentVendor.id,
+      serviceId: currentService.id,
+      scheduledDate: iso,
+      timeSlot: bookingSlot,
+      address: address,
+      lat: LOC.lat,
+      lng: LOC.lng,
+      scopeText: scope,
+      scopePhotos: []
+    })
+  }).then(function(r) { return r.json().then(function(d) { return { s: r.status, d: d }; }); })
+    .then(function(res) {
+      if (res.s !== 201) {
+        var errHtml = '<div style="text-align:center;padding:30px"><div style="font-size:48px;margin-bottom:10px">⚠️</div><h3 style="margin-bottom:6px">Booking failed</h3><p style="color:var(--tm);font-size:14px">' + esc(res.d.error || "Try again") + '</p><button class="btn primary" onclick="closeBooking()" style="margin-top:20px;justify-content:center">Close</button></div>';
+        $("bookBody").innerHTML = errHtml;
+        return;
+      }
+      var b = res.d.booking;
+      var html = '<div class="success">';
+      html += '<div class="success-ico">✓</div>';
+      html += '<h3>Booking Confirmed!</h3>';
+      html += '<p>' + esc(currentVendor.business_name) + ' has been notified and will contact you shortly.</p>';
+      html += '<div class="success-id">#' + b.id.slice(0, 8).toUpperCase() + '</div>';
+      html += '<p style="margin-top:20px"><strong>' + dateLabel(bookingDayOffset) + '</strong> • ' + bookingSlot + '<br>' + esc(address) + '</p>';
+      html += '<p style="margin-top:14px;color:var(--tm);font-size:13px">Estimated: \u20B9' + Number(b.price_estimate_min).toLocaleString() + ' – \u20B9' + Number(b.price_estimate_max).toLocaleString() + '</p>';
+      html += '<button class="btn primary" style="margin-top:24px;width:100%;justify-content:center" onclick="closeBooking()">Done</button>';
+      html += '</div>';
+      $("bookBody").innerHTML = html;
+      toast("\u2713 Booking placed successfully");
+    })
+    .catch(function(err) {
+      $("bookBody").innerHTML = '<div style="text-align:center;padding:30px"><h3>Network error</h3><p style="color:var(--tm)">' + esc(err.message) + '</p><button class="btn primary" onclick="closeBooking()" style="margin-top:20px;justify-content:center">Close</button></div>';
+    });
+}
+
+// Search filter
+document.addEventListener("DOMContentLoaded", function() {
+  var search = $("qsearch");
+  if (search) {
+    search.addEventListener("input", function() {
+      var q = this.value.toLowerCase().trim();
+      if (!q) return;
+      // Simple keyword match on category names
+      var keywords = {painter:"painter",paint:"painter",plumber:"plumber",plumb:"plumber",electric:"electrician",interior:"interior_designer",design:"interior_designer",contract:"contractor",renovat:"renovation_expert",civil:"civil_engineer",engineer:"civil_engineer"};
+      for (var k in keywords) {
+        if (q.indexOf(k) !== -1) {
+          var labels = {painter:"Painter",plumber:"Plumber",electrician:"Electrician",interior_designer:"Interior Designer",contractor:"Contractor",renovation_expert:"Renovation Expert",civil_engineer:"Civil Engineer"};
+          loadVendors(keywords[k], labels[keywords[k]]);
+          return;
+        }
+      }
+    });
+  }
+  loadHome();
+});
+</script>
+
+<!-- SIGN IN MODAL -->
+<div class="modal" id="signInModal">
+  <div class="modal-content" style="max-width:420px">
+    <div class="modal-h">
+      <h2 id="signInTitle">Sign in</h2>
+      <button class="modal-x" onclick="closeSignIn()">×</button>
+    </div>
+    <div class="modal-body" id="signInBody"></div>
+  </div>
+</div>
+
+<!-- BOOKINGS MODAL -->
+<div class="modal" id="bookingsModal">
+  <div class="modal-content">
+    <div class="modal-h">
+      <h2>My Bookings</h2>
+      <button class="modal-x" onclick="closeBookings()">×</button>
+    </div>
+    <div class="modal-body" id="bookingsBody"></div>
+  </div>
+</div>
+
+<!-- LOCATION MODAL -->
+<div class="modal" id="locationModal">
+  <div class="modal-content" style="max-width:420px">
+    <div class="modal-h">
+      <h2>Choose your location</h2>
+      <button class="modal-x" onclick="closeLocation()">×</button>
+    </div>
+    <div class="modal-body" id="locationBody"></div>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// AUTH STATE
+// =====================================================
+var TOKEN = localStorage.getItem("civilo_token");
+var ME = JSON.parse(localStorage.getItem("civilo_user") || "null");
+var LOC = JSON.parse(localStorage.getItem("civilo_location") || "null") || {
+  name: "Koramangala, Bengaluru", lat: 12.9352, lng: 77.6245
+};
+
+function refreshAuthUI() {
+  var btn = document.getElementById("signInBtn");
+  if (!btn) return;
+  if (ME && TOKEN) {
+    btn.textContent = "Hi, " + (ME.name || "you").split(" ")[0];
+  } else {
+    btn.textContent = "Sign in";
+  }
+  var locText = document.getElementById("locText");
+  if (locText) locText.textContent = LOC.name;
+}
+
+function authHeaders() {
+  return TOKEN ? { "Authorization": "Bearer " + TOKEN, "Content-Type": "application/json" }
+               : { "Content-Type": "application/json" };
+}
+
+// =====================================================
+// SIGN IN MODAL
+// =====================================================
+var authMode = "login"; // or "register"
+
+function openSignIn() {
+  // If already logged in, show profile/logout
+  if (ME && TOKEN) {
+    renderProfileView();
+  } else {
+    authMode = "login";
+    renderAuthForm();
+  }
+  document.getElementById("signInModal").classList.add("on");
+}
+function closeSignIn() { document.getElementById("signInModal").classList.remove("on"); }
+
+function renderProfileView() {
+  document.getElementById("signInTitle").textContent = "Your Account";
+  var html = "";
+  html += '<div style="text-align:center;padding:20px 0">';
+  html += '<div style="width:64px;height:64px;background:var(--p);color:#fff;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:28px;font-weight:700">' + (ME.name || "U").charAt(0).toUpperCase() + '</div>';
+  html += '<h3 style="font-size:18px;margin-bottom:4px">' + esc(ME.name) + '</h3>';
+  html += '<p style="color:var(--tm);font-size:13px">' + esc(ME.phone) + '</p>';
+  if (ME.email) html += '<p style="color:var(--tm);font-size:13px;margin-top:4px">' + esc(ME.email) + '</p>';
+  html += '<span class="vc-badge" style="position:static;display:inline-block;margin-top:10px;background:var(--pl);color:var(--p)">' + esc(ME.role) + '</span>';
+  html += '</div>';
+  html += '<div style="display:flex;gap:10px;margin-top:8px">';
+  html += '<button class="btn secondary" style="flex:1;justify-content:center" onclick="closeSignIn()">Close</button>';
+  html += '<button class="btn primary" style="flex:1;justify-content:center;background:var(--r)" onclick="doLogout()">Sign out</button>';
+  html += '</div>';
+  document.getElementById("signInBody").innerHTML = html;
+}
+
+function renderAuthForm() {
+  var isLogin = authMode === "login";
+  document.getElementById("signInTitle").textContent = isLogin ? "Sign in" : "Create account";
+  var html = "";
+  if (!isLogin) {
+    html += '<div class="field"><label>Full name</label><input id="aName" placeholder="Your full name"></div>';
+  }
+  html += '<div class="field"><label>Phone number</label><input id="aPhone" type="tel" placeholder="10-digit mobile"></div>';
+  if (!isLogin) {
+    html += '<div class="field"><label>Email (optional)</label><input id="aEmail" type="email" placeholder="you@example.com"></div>';
+  }
+  html += '<div class="field"><label>Password</label><input id="aPw" type="password" placeholder="' + (isLogin ? "Your password" : "Min 8 characters") + '"></div>';
+  html += '<div id="authErr" style="display:none;background:#FEE2E2;color:#991B1B;padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px"></div>';
+  html += '<button class="btn primary" style="width:100%;justify-content:center" onclick="' + (isLogin ? "doLogin()" : "doRegister()") + '">' + (isLogin ? "Sign in" : "Create account") + '</button>';
+  html += '<p style="text-align:center;margin-top:14px;font-size:13px;color:var(--tm)">';
+  html += isLogin ? 'New to Civilo? <a href="#" style="color:var(--p);font-weight:600" onclick="authMode=\'register\';renderAuthForm();return false">Create an account</a>'
+                  : 'Already have an account? <a href="#" style="color:var(--p);font-weight:600" onclick="authMode=\'login\';renderAuthForm();return false">Sign in</a>';
+  html += '</p>';
+  if (isLogin) {
+    html += '<div style="margin-top:14px;padding:10px;background:var(--pl);border-radius:8px;font-size:12px;color:#9A3500">';
+    html += '<strong>Demo:</strong> Phone <code>9000000001</code> won\'t work yet — try <strong>Create an account</strong> first.';
+    html += '</div>';
+  }
+  document.getElementById("signInBody").innerHTML = html;
+  setTimeout(function() { var el = document.getElementById(isLogin ? "aPhone" : "aName"); if (el) el.focus(); }, 100);
+}
+
+function showAuthErr(msg) {
+  var e = document.getElementById("authErr");
+  e.textContent = msg;
+  e.style.display = "block";
+}
+
+function doLogin() {
+  var phone = document.getElementById("aPhone").value.trim();
+  var pw = document.getElementById("aPw").value;
+  if (!phone || !pw) return showAuthErr("Phone and password required");
+  fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone: phone, password: pw })
+  }).then(function(r) { return r.json().then(function(d) { return { s: r.status, d: d }; }); })
+    .then(function(res) {
+      if (res.s !== 200) return showAuthErr(res.d.error || "Login failed");
+      TOKEN = res.d.accessToken;
+      ME = res.d.user;
+      localStorage.setItem("civilo_token", TOKEN);
+      localStorage.setItem("civilo_user", JSON.stringify(ME));
+      refreshAuthUI();
+      closeSignIn();
+      toast("✓ Welcome back, " + (ME.name || "").split(" ")[0]);
+    })
+    .catch(function(err) { showAuthErr("Network error: " + err.message); });
+}
+
+function doRegister() {
+  var name = document.getElementById("aName").value.trim();
+  var phone = document.getElementById("aPhone").value.trim();
+  var email = document.getElementById("aEmail").value.trim();
+  var pw = document.getElementById("aPw").value;
+  if (!name || !phone || !pw) return showAuthErr("Name, phone, and password required");
+  if (pw.length < 8) return showAuthErr("Password must be at least 8 characters");
+  if (!/^[0-9]{10,15}$/.test(phone)) return showAuthErr("Phone must be 10-15 digits, no spaces");
+  var body = { name: name, phone: phone, password: pw, role: "customer" };
+  if (email) body.email = email;
+  fetch("/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  }).then(function(r) { return r.json().then(function(d) { return { s: r.status, d: d }; }); })
+    .then(function(res) {
+      if (res.s !== 201) return showAuthErr(res.d.error || "Registration failed");
+      TOKEN = res.d.accessToken;
+      ME = res.d.user;
+      localStorage.setItem("civilo_token", TOKEN);
+      localStorage.setItem("civilo_user", JSON.stringify(ME));
+      refreshAuthUI();
+      closeSignIn();
+      toast("✓ Welcome to Civilo, " + name.split(" ")[0] + "!");
+    })
+    .catch(function(err) { showAuthErr("Network error: " + err.message); });
+}
+
+function doLogout() {
+  TOKEN = null; ME = null;
+  localStorage.removeItem("civilo_token");
+  localStorage.removeItem("civilo_user");
+  refreshAuthUI();
+  closeSignIn();
+  toast("Signed out");
+}
+</script>
+
+<script>
+// =====================================================
+// MY BOOKINGS MODAL
+// =====================================================
+function openBookings() {
+  if (!TOKEN || !ME) {
+    toast("Please sign in to view your bookings");
+    openSignIn();
+    return;
+  }
+  document.getElementById("bookingsModal").classList.add("on");
+  document.getElementById("bookingsBody").innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div></div>';
+  fetch("/api/bookings/me", { headers: authHeaders() })
+    .then(function(r) { return r.json().then(function(d) { return { s: r.status, d: d }; }); })
+    .then(function(res) {
+      if (res.s !== 200) {
+        document.getElementById("bookingsBody").innerHTML = '<div class="empty">' + esc(res.d.error || "Could not load bookings") + '</div>';
+        return;
+      }
+      var bookings = res.d.bookings || [];
+      if (!bookings.length) {
+        document.getElementById("bookingsBody").innerHTML =
+          '<div style="text-align:center;padding:40px 20px">' +
+          '<div style="font-size:48px;margin-bottom:12px">📋</div>' +
+          '<h3 style="margin-bottom:6px">No bookings yet</h3>' +
+          '<p style="color:var(--tm);font-size:14px;margin-bottom:20px">Browse vendors and book your first service</p>' +
+          '<button class="btn primary" onclick="closeBookings()" style="justify-content:center">Browse vendors</button>' +
+          '</div>';
+        return;
+      }
+      var html = "";
+      var statusColors = {
+        requested: "#F59E0B", accepted: "#3B82F6",
+        in_progress: "#FF5A1F", completed: "#10B981",
+        cancelled: "#94A3B8", rejected: "#EF4444"
+      };
+      for (var i = 0; i < bookings.length; i++) {
+        var b = bookings[i];
+        var color = statusColors[b.status] || "#64748B";
+        html += '<div style="border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer" onclick="closeBookings();loadProfile(\'' + esc(b.vendor_id) + '\')">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">';
+        html += '<strong style="font-size:15px">' + esc(b.vendor_name) + '</strong>';
+        html += '<span style="background:' + color + '20;color:' + color + ';padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase">' + esc(b.status.replace("_", " ")) + '</span>';
+        html += '</div>';
+        html += '<div style="color:var(--tm);font-size:13px;margin-bottom:4px">' + esc(b.service_title) + '</div>';
+        html += '<div style="color:var(--tm);font-size:12px">📅 ' + esc(b.scheduled_date) + ' • ' + esc(b.time_slot) + '</div>';
+        if (b.price_estimate_min) {
+          html += '<div style="margin-top:8px;font-size:13px"><strong>₹' + Number(b.price_estimate_min).toLocaleString() + ' – ₹' + Number(b.price_estimate_max).toLocaleString() + '</strong></div>';
+        }
+        html += '</div>';
+      }
+      document.getElementById("bookingsBody").innerHTML = html;
+    });
+}
+function closeBookings() { document.getElementById("bookingsModal").classList.remove("on"); }
+
+// =====================================================
+// LOCATION PICKER MODAL
+// =====================================================
+var LOCATIONS = [
+  { name: "Koramangala, Bengaluru",   lat: 12.9352, lng: 77.6245 },
+  { name: "Indiranagar, Bengaluru",   lat: 12.9719, lng: 77.6412 },
+  { name: "Whitefield, Bengaluru",    lat: 12.9698, lng: 77.7500 },
+  { name: "HSR Layout, Bengaluru",    lat: 12.9116, lng: 77.6473 },
+  { name: "Jayanagar, Bengaluru",     lat: 12.9250, lng: 77.5938 },
+  { name: "Marathahalli, Bengaluru",  lat: 12.9591, lng: 77.6974 },
+  { name: "Electronic City, Bengaluru", lat: 12.8456, lng: 77.6603 },
+  { name: "Hebbal, Bengaluru",        lat: 13.0359, lng: 77.5970 }
+];
+
+function openLocation() {
+  var html = "";
+  html += '<div class="field"><input id="locSearch" placeholder="Search your locality..." oninput="filterLocations()"></div>';
+  html += '<button class="btn secondary" style="width:100%;justify-content:center;margin-bottom:12px" onclick="useDeviceLocation()">📍 Use my current location</button>';
+  html += '<div style="font-size:12px;font-weight:600;color:var(--tm);margin:14px 0 8px;letter-spacing:.05em">POPULAR AREAS</div>';
+  html += '<div id="locList">';
+  for (var i = 0; i < LOCATIONS.length; i++) {
+    var l = LOCATIONS[i];
+    var sel = l.name === LOC.name ? 'background:var(--pl);color:var(--p);font-weight:600' : '';
+    html += '<div class="loc-item" data-idx="' + i + '" onclick="selectLocation(' + i + ')" style="padding:12px 14px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:14px;' + sel + '" onmouseover="if(!this.dataset.sel)this.style.background=\'var(--bgm)\'" onmouseout="if(!this.dataset.sel)this.style.background=\'\'">';
+    html += '<span style="font-size:18px">📍</span><span>' + esc(l.name) + '</span></div>';
+  }
+  html += '</div>';
+  document.getElementById("locationBody").innerHTML = html;
+  document.getElementById("locationModal").classList.add("on");
+}
+function closeLocation() { document.getElementById("locationModal").classList.remove("on"); }
+
+function filterLocations() {
+  var q = document.getElementById("locSearch").value.toLowerCase().trim();
+  var items = document.querySelectorAll(".loc-item");
+  for (var i = 0; i < items.length; i++) {
+    var name = LOCATIONS[parseInt(items[i].getAttribute("data-idx"))].name.toLowerCase();
+    items[i].style.display = (!q || name.indexOf(q) !== -1) ? "flex" : "none";
+  }
+}
+
+function selectLocation(idx) {
+  LOC = LOCATIONS[idx];
+  localStorage.setItem("civilo_location", JSON.stringify(LOC));
+  refreshAuthUI();
+  closeLocation();
+  toast("📍 Location set to " + LOC.name);
+  // Reload home so vendor distances update
+  if (document.getElementById("home").classList.contains("on")) loadHome();
+}
+
+function useDeviceLocation() {
+  if (!navigator.geolocation) {
+    toast("Geolocation not supported in this browser");
+    return;
+  }
+  toast("Getting your location...");
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    LOC = { name: "Current location", lat: pos.coords.latitude, lng: pos.coords.longitude };
+    localStorage.setItem("civilo_location", JSON.stringify(LOC));
+    refreshAuthUI();
+    closeLocation();
+    toast("📍 Using your current location");
+    if (document.getElementById("home").classList.contains("on")) loadHome();
+  }, function(err) {
+    toast("Could not get location: " + err.message, true);
+  });
+}
+
+// Initialize on load
+document.addEventListener("DOMContentLoaded", function() {
+  refreshAuthUI();
+});
+</script>
+
+</body>
+</html>

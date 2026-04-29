@@ -1,0 +1,38 @@
+{
+  "name": "civilo-backend",
+  "version": "0.1.0",
+  "description": "Civilo backend API — civil & construction services marketplace",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "lint": "eslint .",
+    "test": "jest",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "node src/config/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "dotenv": "^16.4.5",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "joi": "^17.13.3",
+    "pg": "^8.12.0",
+    "@prisma/client": "^5.18.0",
+    "multer": "^1.4.5-lts.1",
+    "aws-sdk": "^2.1659.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "prisma": "^5.18.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "eslint": "^8.57.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

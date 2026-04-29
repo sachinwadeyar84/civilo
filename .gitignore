@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Secrets — NEVER commit these
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# Builds
+.expo/
+.expo-shared/
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Testing
+coverage/
+
+# Local one-off scripts and helpers (not part of the project)
+add_land_dev.bat
+add_photos.bat
+apply_schema.bat
+check_pg.bat
+clean_admin.bat
+peek.bat
+seed_db.bat
+setup_admin.bat
+setup_admin_user.js
+start_backend.bat
+start_preview.bat
+stop_backend.bat
+test_pwd.bat
+verify.bat
+RESET_PASSWORD.bat
+preview.html
+test_preview.txt

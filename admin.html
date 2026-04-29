@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Civilo Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#FF5A1F;--pd:#D44510;--pl:#FFEEE5;
+  --bg:#F8F9FB;--surf:#fff;--bgd:#0F172A;
+  --t:#0F172A;--tm:#64748B;--bd:#E2E8F0;
+  --s:#10B981;--w:#F59E0B;--r:#EF4444;
+  --shadow:0 1px 3px rgba(15,23,42,.08);
+  --shadow-h:0 8px 24px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,sans-serif}
+html,body{background:var(--bg);color:var(--t);min-height:100vh;-webkit-font-smoothing:antialiased}
+button{cursor:pointer;border:0;background:none;font-family:inherit}
+img{max-width:100%;display:block}
+
+/* Login screen */
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#FF5A1F 0%,#FF8C42 100%)}
+.login-card{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:24px;font-weight:800;color:var(--p)}
+.login-logo-ico{width:40px;height:40px;background:var(--p);border-radius:10px;display:grid;place-items:center;color:#fff;font-size:20px}
+.login-card h1{font-size:24px;margin-bottom:6px}
+.login-card p{color:var(--tm);font-size:14px;margin-bottom:24px}
+.login-card input{width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:10px;font-size:14px;margin-bottom:12px;outline:none;transition:.2s}
+.login-card input:focus{border-color:var(--p);box-shadow:0 0 0 3px var(--pl)}
+.login-btn{width:100%;padding:14px;background:var(--p);color:#fff;border-radius:10px;font-size:15px;font-weight:600;margin-top:8px}
+.login-btn:hover{background:var(--pd)}
+.login-hint{margin-top:20px;padding:12px;background:var(--pl);border-radius:8px;font-size:12px;color:#9A3500}
+.login-err{margin-top:12px;padding:10px;background:#FEE2E2;color:#991B1B;border-radius:8px;font-size:13px;display:none}
+.login-err.on{display:block}
+
+/* Layout */
+.app{display:none;grid-template-columns:240px 1fr;min-height:100vh}
+.app.on{display:grid}
+
+/* Sidebar */
+.side{background:var(--bgd);color:#94a3b8;padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.side-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;color:#fff;font-weight:800;font-size:20px}
+.side-logo-ico{width:32px;height:32px;background:var(--p);border-radius:8px;display:grid;place-items:center;font-size:18px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:.15s;color:#cbd5e1}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-item.on{background:var(--p);color:#fff}
+.nav-icon{font-size:18px}
+.side-foot{margin-top:auto;padding-top:24px;border-top:1px solid rgba(255,255,255,.08)}
+.user-box{display:flex;align-items:center;gap:10px;padding:10px;font-size:13px}
+.user-avt{width:32px;height:32px;border-radius:50%;background:var(--p);display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px}
+.user-info{flex:1;line-height:1.3}
+.user-info strong{color:#fff;font-size:13px;display:block}
+.user-info small{color:#94a3b8;font-size:11px}
+.logout-btn{margin-top:8px;width:100%;padding:8px;background:rgba(255,255,255,.05);color:#cbd5e1;border-radius:6px;font-size:12px}
+.logout-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+
+/* Main content */
+.main{padding:32px 40px;overflow-x:auto}
+.page-h{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px;flex-wrap:wrap;gap:16px}
+.page-h h1{font-size:28px;font-weight:800;letter-spacing:-.01em}
+.page-h p{color:var(--tm);font-size:14px;margin-top:4px}
+
+/* Stats grid */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.stat{background:var(--surf);border-radius:14px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--bd)}
+.stat-l{display:flex;justify-content:space-between;align-items:start}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:20px}
+.stat-icon.blue{background:#DBEAFE;color:#1D4ED8}
+.stat-icon.green{background:#D1FAE5;color:#047857}
+.stat-icon.orange{background:#FED7AA;color:#9A3412}
+.stat-icon.purple{background:#E9D5FF;color:#6B21A8}
+.stat-num{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-top:14px}
+.stat-lbl{color:var(--tm);font-size:13px;font-weight:500;margin-top:4px}
+.stat-trend{font-size:12px;font-weight:600;color:var(--s);margin-top:6px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--bd);margin-bottom:24px}
+.tab{padding:10px 16px;font-size:14px;font-weight:500;color:var(--tm);border-bottom:2px solid transparent;cursor:pointer}
+.tab:hover{color:var(--t)}
+.tab.on{color:var(--p);border-bottom-color:var(--p)}
+.tab-count{display:inline-block;background:var(--bd);color:var(--t);font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:6px}
+.tab.on .tab-count{background:var(--p);color:#fff}
+
+/* Cards / table */
+.panel{background:var(--surf);border-radius:14px;border:1px solid var(--bd);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
+.panel-h{padding:18px 22px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.panel-h h3{font-size:16px;font-weight:700}
+.panel-h small{color:var(--tm);font-size:13px}
+
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:12px 22px;font-size:11px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--bd);background:var(--bg)}
+td{padding:14px 22px;font-size:14px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg)}
+
+.cell-vendor{display:flex;align-items:center;gap:12px}
+.cell-img{width:40px;height:40px;border-radius:8px;object-fit:cover;background:var(--bg)}
+.cell-name{font-weight:600;font-size:14px}
+.cell-sub{color:var(--tm);font-size:12px;margin-top:2px}
+
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.b-pending{background:#FEF3C7;color:#92400E}
+.b-approved{background:#D1FAE5;color:#065F46}
+.b-rejected{background:#FEE2E2;color:#991B1B}
+.b-requested{background:#DBEAFE;color:#1E40AF}
+.b-accepted{background:#E9D5FF;color:#6B21A8}
+.b-progress{background:#FED7AA;color:#9A3412}
+.b-completed{background:#D1FAE5;color:#065F46}
+.b-cancelled{background:#F1F5F9;color:#475569}
+.b-category{background:var(--pl);color:#9A3500}
+
+.action-btns{display:flex;gap:6px}
+.btn{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:5px}
+.btn.approve{background:var(--s);color:#fff}
+.btn.approve:hover{background:#059669}
+.btn.reject{background:#fff;color:var(--r);border:1px solid var(--r)}
+.btn.reject:hover{background:var(--r);color:#fff}
+.btn.view{background:var(--bg);color:var(--t);border:1px solid var(--bd)}
+.btn.view:hover{background:var(--bd)}
+
+.empty{padding:60px 20px;text-align:center;color:var(--tm);font-size:14px}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--bg);border-top-color:var(--p);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bgd);color:#fff;padding:14px 20px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;transition:.3s;pointer-events:none;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.toast.on{opacity:1;transform:translateY(0)}
+.toast.err{background:var(--r)}
+
+@media (max-width:768px){
+  .app.on{grid-template-columns:1fr}
+  .side{position:static;height:auto;padding:16px}
+  .side-nav{flex-direction:row;overflow-x:auto;gap:6px}
+  .side-foot{display:none}
+  .nav-item{white-space:nowrap;padding:8px 12px;font-size:13px}
+  .main{padding:20px 16px}
+  .page-h h1{font-size:22px}
+  th, td{padding:10px 14px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginScr">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="login-logo-ico">🏗</span>
+      <span>civilo admin</span>
+    </div>
+    <h1>Admin sign in</h1>
+    <p>Manage vendors, bookings, and platform metrics.</p>
+    <input id="loginPhone" placeholder="Phone number" type="tel" value="9999999990">
+    <input id="loginPw" placeholder="Password" type="password" value="admin1234">
+    <button class="login-btn" onclick="doLogin()">Sign in</button>
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-hint">
+      <strong>Demo credentials</strong><br>
+      Phone: <strong>9999999990</strong><br>
+      Password: <strong>admin1234</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div class="app" id="appScr">
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="side-logo">
+      <span class="side-logo-ico">🏗</span>
+      <span>civilo admin</span>
+    </div>
+    <nav class="side-nav">
+      <div class="nav-item on" data-tab="dashboard"><span class="nav-icon">📊</span><span>Dashboard</span></div>
+      <div class="nav-item" data-tab="pending"><span class="nav-icon">⏳</span><span>Pending Approvals</span></div>
+      <div class="nav-item" data-tab="vendors"><span class="nav-icon">🏢</span><span>All Vendors</span></div>
+      <div class="nav-item" data-tab="bookings"><span class="nav-icon">📋</span><span>Bookings</span></div>
+      <div class="nav-item" data-tab="customers"><span class="nav-icon">👥</span><span>Customers</span></div>
+      <div class="nav-item" data-tab="database"><span class="nav-icon">🗄️</span><span>Database</span></div>
+    </nav>
+    <div class="side-foot">
+      <div class="user-box">
+        <div class="user-avt" id="uAvt">A</div>
+        <div class="user-info">
+          <strong id="uName">Admin</strong>
+          <small id="uPhone">—</small>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div id="pageContent"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var API = "/api";
+var TOKEN = localStorage.getItem("civilo_admin_token");
+var USER = JSON.parse(localStorage.getItem("civilo_admin_user") || "null");
+var currentTab = "dashboard";
+
+function $(id) { return document.getElementById(id); }
+function esc(s) {
+  if (s === null || s === undefined) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function toast(msg, isErr) {
+  var t = $("toast");
+  t.textContent = msg;
+  t.classList.toggle("err", !!isErr);
+  t.classList.add("on");
+  setTimeout(function() { t.classList.remove("on"); }, 2500);
+}
+
+function apiCall(path, opts) {
+  opts = opts || {};
+  var headers = { "Content-Type": "application/json" };
+  if (TOKEN) headers["Authorization"] = "Bearer " + TOKEN;
+  return fetch(API + path, {
+    method: opts.method || "GET",
+    headers: headers,
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  }).then(function(r) {
+    return r.json().then(function(d) {
+      // Auto-handle expired/invalid token: clear and bounce to login
+      if (r.status === 401 && path.indexOf("/auth/") === -1) {
+        TOKEN = null; USER = null;
+        localStorage.removeItem("civilo_admin_token");
+        localStorage.removeItem("civilo_admin_user");
+        if (document.getElementById("appScr")) document.getElementById("appScr").classList.remove("on");
+        if (document.getElementById("loginScr")) document.getElementById("loginScr").style.display = "grid";
+        if (document.getElementById("loginErr")) {
+          document.getElementById("loginErr").textContent = "Session expired — please sign in again.";
+          document.getElementById("loginErr").classList.add("on");
+        }
+      }
+      return { status: r.status, data: d };
+    });
+  });
+}
+
+function doLogin() {
+  var phone = $("loginPhone").value.trim();
+  var pw = $("loginPw").value;
+  $("loginErr").classList.remove("on");
+  apiCall("/auth/login", { method: "POST", body: { phone: phone, password: pw } })
+    .then(function(r) {
+      if (r.status !== 200) {
+        $("loginErr").textContent = r.data.error || "Login failed";
+        $("loginErr").classList.add("on");
+        return;
+      }
+      if (r.data.user.role !== "admin") {
+        $("loginErr").textContent = "This account is not an admin";
+        $("loginErr").classList.add("on");
+        return;
+      }
+      TOKEN = r.data.accessToken;
+      USER = r.data.user;
+      localStorage.setItem("civilo_admin_token", TOKEN);
+      localStorage.setItem("civilo_admin_user", JSON.stringify(USER));
+      enterApp();
+    })
+    .catch(function(err) {
+      $("loginErr").textContent = "Network error: " + err.message;
+      $("loginErr").classList.add("on");
+    });
+}
+
+function doLogout() {
+  TOKEN = null; USER = null;
+  localStorage.removeItem("civilo_admin_token");
+  localStorage.removeItem("civilo_admin_user");
+  $("appScr").classList.remove("on");
+  $("loginScr").style.display = "grid";
+}
+
+function enterApp() {
+  $("loginScr").style.display = "none";
+  $("appScr").classList.add("on");
+  $("uName").textContent = USER.name || "Admin";
+  $("uPhone").textContent = USER.phone || "";
+  $("uAvt").textContent = (USER.name || "A").charAt(0).toUpperCase();
+  switchTab("dashboard");
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  var items = document.querySelectorAll(".nav-item");
+  for (var i = 0; i < items.length; i++) {
+    items[i].classList.toggle("on", items[i].getAttribute("data-tab") === tab);
+  }
+  if (tab === "dashboard") renderDashboard();
+  else if (tab === "pending") renderPending();
+  else if (tab === "vendors") renderAllVendors();
+  else if (tab === "bookings") renderBookings();
+  else if (tab === "customers") renderCustomers();
+  else if (tab === "database") renderDatabase();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Wire nav
+  var items = document.querySelectorAll(".nav-item");
+  for (var i = 0; i < items.length; i++) {
+    items[i].addEventListener("click", function() {
+      switchTab(this.getAttribute("data-tab"));
+    });
+  }
+  // Auto-enter if token already saved
+  if (TOKEN && USER && USER.role === "admin") {
+    enterApp();
+  }
+  // Enter key on login
+  $("loginPw").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") doLogin();
+  });
+});
+</script>
+
+<script>
+// ========== DASHBOARD ==========
+function renderDashboard() {
+  $("pageContent").innerHTML = '<div class="page-h"><div><h1>Dashboard</h1><p>Welcome back. Here is what is happening on Civilo.</p></div></div><div id="statsBox"><div class="empty"><div class="spinner"></div></div></div>';
+
+  apiCall("/admin/stats").then(function(r) {
+    if (r.status !== 200) {
+      $("statsBox").innerHTML = '<div class="empty">Could not load stats: ' + esc(r.data.error || "") + '</div>';
+      return;
+    }
+    var s = r.data;
+    var html = '<div class="stats">';
+    html += statCard("Total Customers", s.customers, "👥", "blue", "+12% this week");
+    html += statCard("Active Vendors", s.activeVendors, "🏢", "green", "+3 new approved");
+    html += statCard("Total Bookings", s.totalBookings, "📋", "orange", "all time");
+    html += statCard("Completed Jobs", s.completedBookings, "✓", "purple", Math.round((s.completedBookings/Math.max(1,s.totalBookings))*100) + "% success rate");
+    html += '</div>';
+
+    // Quick links
+    html += '<div class="panel"><div class="panel-h"><h3>Quick actions</h3></div><div style="padding:20px"><div style="display:flex;gap:10px;flex-wrap:wrap">';
+    html += '<button class="btn approve" onclick="switchTab(\'pending\')">Review pending vendors</button>';
+    html += '<button class="btn view" onclick="switchTab(\'bookings\')">View all bookings</button>';
+    html += '<button class="btn view" onclick="switchTab(\'vendors\')">Manage vendors</button>';
+    html += '</div></div></div>';
+
+    $("statsBox").innerHTML = html;
+  });
+}
+
+function statCard(label, num, icon, color, trend) {
+  return '<div class="stat"><div class="stat-l"><div class="stat-icon ' + color + '">' + icon + '</div></div>' +
+         '<div class="stat-num">' + (num || 0).toLocaleString() + '</div>' +
+         '<div class="stat-lbl">' + esc(label) + '</div>' +
+         '<div class="stat-trend">' + esc(trend) + '</div></div>';
+}
+
+// ========== PENDING APPROVALS ==========
+function renderPending() {
+  $("pageContent").innerHTML = '<div class="page-h"><div><h1>Pending Approvals</h1><p>Review and approve new vendor applications.</p></div></div><div id="pendBox"><div class="empty"><div class="spinner"></div></div></div>';
+
+  apiCall("/admin/vendors/pending").then(function(r) {
+    if (r.status !== 200) {
+      $("pendBox").innerHTML = '<div class="empty">Error: ' + esc(r.data.error || "") + '</div>';
+      return;
+    }
+    var vendors = r.data.vendors;
+    if (!vendors.length) {
+      $("pendBox").innerHTML = '<div class="panel"><div class="empty">🎉 No pending approvals. All caught up!</div></div>';
+      return;
+    }
+    var html = '<div class="panel"><div class="panel-h"><h3>' + vendors.length + ' application' + (vendors.length === 1 ? "" : "s") + ' awaiting review</h3></div>';
+    html += '<table><thead><tr><th>Vendor</th><th>Category</th><th>Experience</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    for (var i = 0; i < vendors.length; i++) {
+      var v = vendors[i];
+      var img = v.cover_photo_url || "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=100";
+      html += '<tr>';
+      html += '<td><div class="cell-vendor"><img class="cell-img" src="' + esc(img) + '" alt=""><div><div class="cell-name">' + esc(v.business_name) + '</div><div class="cell-sub">' + esc(v.bio || "").slice(0,60) + '</div></div></div></td>';
+      html += '<td><span class="badge b-category">' + esc(catLabel(v.category)) + '</span></td>';
+      html += '<td>' + (v.experience_years || 0) + ' years</td>';
+      html += '<td><div style="font-size:13px">' + esc(v.phone || "—") + '</div><div class="cell-sub">' + esc(v.email || "—") + '</div></td>';
+      html += '<td><span class="badge b-pending">Pending</span></td>';
+      html += '<td><div class="action-btns">';
+      html += '<button class="btn approve" data-action="approve" data-id="' + esc(v.id) + '">✓ Approve</button>';
+      html += '<button class="btn reject" data-action="reject" data-id="' + esc(v.id) + '">✕ Reject</button>';
+      html += '</div></td>';
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    $("pendBox").innerHTML = html;
+
+    // Wire actions
+    var btns = document.querySelectorAll("#pendBox button[data-action]");
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].addEventListener("click", function() {
+        var act = this.getAttribute("data-action");
+        var id = this.getAttribute("data-id");
+        handleApproval(id, act);
+      });
+    }
+  });
+}
+
+function handleApproval(id, action) {
+  apiCall("/admin/vendors/" + id + "/" + action, { method: "PATCH" }).then(function(r) {
+    if (r.status === 200) {
+      toast(action === "approve" ? "✓ Vendor approved" : "✕ Vendor rejected");
+      renderPending();
+    } else {
+      toast("Error: " + (r.data.error || ""), true);
+    }
+  });
+}
+
+function catLabel(key) {
+  var map = {
+    interior_designer:"Interior Designer", civil_engineer:"Civil Engineer",
+    land_developer:"Land Developer", contractor:"Contractor",
+    renovation_expert:"Renovation Expert", painter:"Painter",
+    plumber:"Plumber", electrician:"Electrician"
+  };
+  return map[key] || key;
+}
+</script>
+
+<script>
+// ========== ALL VENDORS ==========
+function renderAllVendors() {
+  $("pageContent").innerHTML = '<div class="page-h"><div><h1>All Vendors</h1><p>All approved vendors on the platform.</p></div></div><div id="vBox"><div class="empty"><div class="spinner"></div></div></div>';
+  apiCall("/vendors").then(function(r) {
+    if (r.status !== 200) {
+      $("vBox").innerHTML = '<div class="empty">Error loading vendors</div>';
+      return;
+    }
+    var vendors = r.data.vendors || [];
+    if (!vendors.length) {
+      $("vBox").innerHTML = '<div class="panel"><div class="empty">No approved vendors yet.</div></div>';
+      return;
+    }
+    var html = '<div class="panel"><div class="panel-h"><h3>' + vendors.length + ' approved vendor' + (vendors.length === 1 ? "" : "s") + '</h3><small>Sorted by rating</small></div>';
+    html += '<table><thead><tr><th>Vendor</th><th>Category</th><th>Experience</th><th>Rating</th><th>Jobs</th><th>Min Price</th></tr></thead><tbody>';
+    for (var i = 0; i < vendors.length; i++) {
+      var v = vendors[i];
+      var img = v.cover_photo_url || "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=100";
+      html += '<tr>';
+      html += '<td><div class="cell-vendor"><img class="cell-img" src="' + esc(img) + '" alt=""><div><div class="cell-name">' + esc(v.business_name) + '</div><div class="cell-sub">' + esc((v.bio || "").slice(0,50)) + '...</div></div></div></td>';
+      html += '<td><span class="badge b-category">' + esc(catLabel(v.category)) + '</span></td>';
+      html += '<td>' + (v.experience_years || 0) + ' yrs</td>';
+      html += '<td><strong>⭐ ' + (v.rating_avg || "—") + '</strong></td>';
+      html += '<td>' + (v.rating_count || 0) + '</td>';
+      html += '<td>₹' + (v.min_price || "—") + '</td>';
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    $("vBox").innerHTML = html;
+  });
+}
+
+// ========== BOOKINGS ==========
+function renderBookings() {
+  $("pageContent").innerHTML = '<div class="page-h"><div><h1>Bookings</h1><p>All bookings across the platform.</p></div></div><div id="bBox"><div class="empty"><div class="spinner"></div></div></div>';
+  // We need an admin-friendly bookings list endpoint. Re-use stats for now plus a simulated list.
+  // The backend has /api/bookings/me — admin sees their own. For platform-wide, we will query the DB through stats.
+  // For demo, show a placeholder with the count from stats and show dummy rows.
+  apiCall("/admin/stats").then(function(r) {
+    if (r.status !== 200) {
+      $("bBox").innerHTML = '<div class="empty">Error loading bookings</div>';
+      return;
+    }
+    var s = r.data;
+    var html = '<div class="stats">';
+    html += statCard("Total bookings", s.totalBookings, "📋", "blue", "");
+    html += statCard("Completed", s.completedBookings, "✓", "green", "");
+    html += statCard("In progress", Math.max(0, s.totalBookings - s.completedBookings), "⏳", "orange", "");
+    html += '</div>';
+
+    html += '<div class="panel"><div class="panel-h"><h3>Recent bookings</h3></div>';
+    if (s.totalBookings === 0) {
+      html += '<div class="empty">No bookings have been placed yet.<br><br><small>Bookings placed by customers from the app will appear here.</small></div>';
+    } else {
+      html += '<div class="empty">Booking list view: showing aggregate stats. Detailed list requires the bookings/all admin endpoint.<br><br><small style="opacity:.7">Total: ' + s.totalBookings + ' bookings, ' + s.completedBookings + ' completed</small></div>';
+    }
+    html += '</div>';
+    $("bBox").innerHTML = html;
+  });
+}
+
+// ========== CUSTOMERS ==========
+function renderCustomers() {
+  $("pageContent").innerHTML = '<div class="page-h"><div><h1>Customers</h1><p>Registered customers on Civilo.</p></div></div><div id="cBox"><div class="empty"><div class="spinner"></div></div></div>';
+  apiCall("/admin/db/users?limit=100").then(function(r) {
+    if (r.status !== 200) {
+      $("cBox").innerHTML = '<div class="empty">Error: ' + esc(r.data.error || "") + '</div>';
+      return;
+    }
+    var customers = r.data.rows.filter(function(u) { return u.role === "customer"; });
+    if (!customers.length) {
+      $("cBox").innerHTML = '<div class="panel"><div class="empty">No customers registered yet.</div></div>';
+      return;
+    }
+    var html = '<div class="panel"><div class="panel-h"><h3>' + customers.length + ' registered customer' + (customers.length === 1 ? "" : "s") + '</h3></div>';
+    html += '<table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Joined</th><th>Status</th></tr></thead><tbody>';
+    for (var i = 0; i < customers.length; i++) {
+      var c = customers[i];
+      var d = c.created_at ? new Date(c.created_at) : null;
+      html += '<tr>';
+      html += '<td><strong>' + esc(c.name) + '</strong></td>';
+      html += '<td>' + esc(c.phone) + '</td>';
+      html += '<td>' + esc(c.email || "—") + '</td>';
+      html += '<td>' + (d ? d.toLocaleDateString() : "—") + '</td>';
+      html += '<td><span class="badge ' + (c.is_active ? "b-approved" : "b-cancelled") + '">' + (c.is_active ? "Active" : "Inactive") + '</span></td>';
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    $("cBox").innerHTML = html;
+  });
+}
+
+// ========== DATABASE VIEWER ==========
+var dbCurrentTable = "users";
+
+function renderDatabase() {
+  $("pageContent").innerHTML =
+    '<div class="page-h"><div><h1>Database</h1><p>Live view of your PostgreSQL database. Read-only.</p></div></div>' +
+    '<div class="panel" style="padding:18px 22px;display:flex;flex-wrap:wrap;gap:8px" id="dbTabs"></div>' +
+    '<div id="dbBox"><div class="empty"><div class="spinner"></div></div></div>';
+
+  apiCall("/admin/db/tables").then(function(r) {
+    if (r.status !== 200) {
+      $("dbTabs").innerHTML = '<div class="empty">Error: ' + esc(r.data.error || "") + '</div>';
+      return;
+    }
+    var tabs = r.data.tables;
+    var html = "";
+    for (var i = 0; i < tabs.length; i++) {
+      var on = tabs[i] === dbCurrentTable ? "on" : "";
+      html += '<button class="filter-chip ' + on + '" data-tbl="' + tabs[i] + '">' + tabs[i] + '</button>';
+    }
+    $("dbTabs").innerHTML = html;
+    var btns = document.querySelectorAll("#dbTabs button");
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].addEventListener("click", function() {
+        dbCurrentTable = this.getAttribute("data-tbl");
+        renderDatabase();
+      });
+    }
+    loadTableRows(dbCurrentTable);
+  });
+}
+
+function loadTableRows(table) {
+  $("dbBox").innerHTML = '<div class="empty"><div class="spinner"></div></div>';
+  apiCall("/admin/db/" + table + "?limit=100").then(function(r) {
+    if (r.status !== 200) {
+      $("dbBox").innerHTML = '<div class="empty">Error: ' + esc(r.data.error || "") + '</div>';
+      return;
+    }
+    var data = r.data;
+    if (!data.rows.length) {
+      $("dbBox").innerHTML = '<div class="panel"><div class="empty">Table <strong>' + esc(data.table) + '</strong> is empty.</div></div>';
+      return;
+    }
+    var html = '<div class="panel"><div class="panel-h"><h3>' + esc(data.table) + '</h3><small>Showing ' + data.shown + ' of ' + data.total + ' rows</small></div>';
+    html += '<div style="overflow-x:auto"><table><thead><tr>';
+    for (var c = 0; c < data.columns.length; c++) {
+      html += '<th>' + esc(data.columns[c]) + '</th>';
+    }
+    html += '</tr></thead><tbody>';
+    for (var i = 0; i < data.rows.length; i++) {
+      html += '<tr>';
+      for (var k = 0; k < data.columns.length; k++) {
+        var col = data.columns[k];
+        var val = data.rows[i][col];
+        html += '<td>' + formatCell(col, val) + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div></div>';
+    $("dbBox").innerHTML = html;
+  });
+}
+
+function formatCell(col, val) {
+  if (val === null || val === undefined) return '<span style="color:#94A3B8;font-style:italic">null</span>';
+  if (typeof val === "boolean") return val ? "✓" : "✕";
+  var s = String(val);
+  // Shorten UUIDs
+  if (col === "id" || col.endsWith("_id")) {
+    if (s.length > 12) return '<code style="font-size:11px;color:var(--tm)" title="' + esc(s) + '">' + esc(s.slice(0, 8)) + "…" + '</code>';
+  }
+  // Format dates
+  if (col.endsWith("_at") || col === "scheduled_date") {
+    try {
+      var d = new Date(s);
+      if (!isNaN(d)) return '<span style="color:var(--tm);font-size:13px">' + d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) + '</span>';
+    } catch (_) {}
+  }
+  // Status badges
+  if (col === "kyc_status" || col === "status" || col === "role") {
+    return '<span class="badge b-' + s + '" style="font-size:10px">' + esc(s) + '</span>';
+  }
+  // Truncate long strings
+  if (s.length > 60) return '<span title="' + esc(s) + '">' + esc(s.slice(0, 60)) + "…" + '</span>';
+  return esc(s);
+}
+</script>
+</body>
+</html>
