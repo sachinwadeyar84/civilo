@@ -7,7 +7,7 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "lint": "eslint .",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "db:migrate": "prisma migrate dev",
     "db:seed": "node src/config/seed.js"
   },
