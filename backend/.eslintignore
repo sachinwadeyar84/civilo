@@ -1,0 +1,6 @@
+node_modules
+frontend/
+database/
+*.html
+admin.html
+app.html

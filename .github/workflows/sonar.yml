@@ -1,0 +1,35 @@
+name: SonarCloud Analysis
+
+# When does this run?
+# - Every push to main (so main is always scanned)
+# - Every pull request to main (so we can see code quality before merging)
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Get the source code onto the runner
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          # SonarCloud needs full git history to attribute blame, calculate "new code"
+          # since last scan, etc. Default checkout is shallow (1 commit only).
+          fetch-depth: 0
+
+      # Step 2: Run the SonarCloud scanner
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          # GITHUB_TOKEN: lets the action comment on PRs with quality findings
+          # (auto-provided by GitHub, no need to create one ourselves)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          # SONAR_TOKEN: the secret you created and stored in repo Settings → Secrets
+          # GitHub injects this at runtime; the actual token never appears in logs
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

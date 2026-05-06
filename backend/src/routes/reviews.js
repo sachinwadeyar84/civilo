@@ -23,7 +23,7 @@ router.post('/', authenticate, requireRole('customer'), async (req, res, next) =
     if (error) throw error;
 
     const bookingQ = await db.query(
-      `SELECT id, customer_id, vendor_id, status FROM bookings WHERE id = $1`,
+      'SELECT id, customer_id, vendor_id, status FROM bookings WHERE id = $1',
       [value.bookingId]
     );
     if (!bookingQ.rows.length) return res.status(404).json({ error: 'Booking not found' });

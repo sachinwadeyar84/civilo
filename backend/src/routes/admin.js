@@ -29,7 +29,7 @@ router.get('/vendors/pending', async (_req, res, next) => {
 router.patch('/vendors/:id/approve', async (req, res, next) => {
   try {
     const { rows } = await db.query(
-      `UPDATE vendor_profiles SET kyc_status = 'approved' WHERE id = $1 RETURNING *`,
+      'UPDATE vendor_profiles SET kyc_status = \'approved\' WHERE id = $1 RETURNING *',
       [req.params.id]
     );
     if (!rows.length) return res.status(404).json({ error: 'Vendor not found' });
@@ -40,7 +40,7 @@ router.patch('/vendors/:id/approve', async (req, res, next) => {
 router.patch('/vendors/:id/reject', async (req, res, next) => {
   try {
     const { rows } = await db.query(
-      `UPDATE vendor_profiles SET kyc_status = 'rejected' WHERE id = $1 RETURNING *`,
+      'UPDATE vendor_profiles SET kyc_status = \'rejected\' WHERE id = $1 RETURNING *',
       [req.params.id]
     );
     if (!rows.length) return res.status(404).json({ error: 'Vendor not found' });
